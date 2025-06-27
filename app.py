@@ -428,8 +428,11 @@ if booking_pdf:
     booking_text = pytesseract.image_to_string(images[0])
     st.image(images[0], caption="Booking Page 1", use_container_width=True)
     booking_no = extract_booking_number(booking_text)
-    st.subheader("🔖 Extracted Booking Number")
-    st.success(f"📌 {booking_no}")
+    st.subheader("🔖 Booking Number")
+
+    # Make booking number editable
+    booking_no = st.text_input("Edit Booking Number if needed:", value=booking_no)
+
 
 # ---------- Generate DOCX ----------
 if ticket_pdf and booking_pdf and ticket_data.get("CUSTOMER"):
