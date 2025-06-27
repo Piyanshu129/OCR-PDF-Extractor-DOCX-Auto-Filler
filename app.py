@@ -93,6 +93,7 @@ def extract_booking_number(text):
 
 
 #For google drive sync option 
+# TEMPLATE_DIR = r"C:\Users\Piyanshu\Google Drive\OCR_Templates"
 # TEMPLATE_DIR = "/Users/piyanshu/Desktop/shared folder/Templates"
 
 # def fill_docx_template(customer_name, data, booking_number, output_dir=None):
