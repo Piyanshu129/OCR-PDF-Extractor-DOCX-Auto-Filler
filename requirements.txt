@@ -6,3 +6,7 @@ pytesseract
 pdf2image
 pillow
 python-docx
+streamlit==1.35.0
+pandas==2.2.2
+openpyxl==3.1.2
+xlrd>=2.0.1
