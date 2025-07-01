@@ -27,6 +27,186 @@ if "user" not in st.session_state:
             st.error("Invalid credentials")
     st.stop()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def extract_booking_number(text):
+#     """
+#     Extract booking numbers from various shipping line booking confirmations.
+#     Supports multiple formats from different carriers like KMTC, ANL, PIL, CMA CGM, etc.
+#     """
+#     patterns = [
+#         r"Portal\s*Booking\s*Ref\s*[:\-]?\s*(.*)",
+
+#                 # Case 1 (HMM): Specific pattern using "Tel No." as a landmark
+#                 # E.g., "Booking Number : DELE33897100 Tel No. : ..."
+#         r"Booking\s+Number\s*[:\s]+([A-Z0-9]+)\s+Tel\s+No",
+
+#                 # Case 3 (ANL): Specific pattern using "Bkg Pty Ref:" as a landmark
+#                 # E.g., "Booking Number: ABP0158454 Bkg Pty Ref:"
+#         r"Booking\s+Number\s*:\s*([A-Z0-9]+)\s+Bkg\s+Pty\s+Ref:",
+
+#                 # Case 1 (HMM): Catches "Booking Reference No. : ..." at the bottom
+#         r"Booking\s+Reference\s+No\.\s*[:\-]?\s*([A-Z0-9/\-]+)",
+
+#                 # --- General Patterns (Made more robust) ---
+
+#                 # General "Booking No." - now allows '/' and '-' and requires 6+ chars
+#                 # Catches Case 2 (KMTC) and others
+#         r"Booking\s*No\.?\s*[:\-]?\s*([A-Z0-9/\-]{6,})",
+
+#                 # General "Booking Number" - FIXED BUG and made robust
+#                 # Catches Case 1 (HMM), Case 3 (ANL) and others
+#         r"Booking\s*Number\s*[:\-]?\s*([A-Z0-9/\-]{6,})",
+#                 # Case 1 (HMM): Specific pattern using "Tel No." as a landmark
+#                 # E.g., "Booking Number : DELE33897100 Tel No. : ..."
+#         r"Booking\s+Number\s*[:\s]+([A-Z0-9]+)\s+Tel\s+No",
+
+#                 # Case 3 (ANL): Specific pattern using "Bkg Pty Ref:" as a landmark
+#                 # E.g., "Booking Number: ABP0158454 Bkg Pty Ref:"
+#         r"Booking\s+Number\s*:\s*([A-Z0-9]+)\s+Bkg\s+Pty\s+Ref:",
+
+#                 # Case 1 (HMM): Catches "Booking Reference No. : ..." at the bottom
+#         r"Booking\s+Reference\s+No\.\s*[:\-]?\s*([A-Z0-9/\-]+)",
+
+#                 # --- General Patterns (Made more robust) ---
+
+#                 # General "Booking No." - now allows '/' and '-' and requires 6+ chars
+#                 # Catches Case 2 (KMTC) and others
+#         r"Booking\s*No\.?\s*[:\-]?\s*([A-Z0-9/\-])",
+
+#                 # General "Booking Number" - FIXED BUG and made robust
+#                 # Catches Case 1 (HMM), Case 3 (ANL) and others
+#         r"Booking\s*Number\s*[:\-]?\s*([A-Z0-9/\-]{6,})",
+#         r"Booking\s+No\s*/\s*Ref\.?\s*No\.?\s*[:\-]?\s*([A-Z0-9]{6,})",
+
+#                 # Covers: Booking Number : DELE33897100
+#         r"Booking\s+Number\s*[:\-]?\s*([A-Z0-9]{6,})",
+
+#                 # Covers: Booking Confirmation...Booking Number: ABP0158454
+#         r"Booking\s+Number\s*[:\-]?\s*([A-Z0-9])",
+
+#                 # Covers: Booking Notice...Booking Number : DELE33897100 (again)
+#         r"Booking\s+Notice.*?Booking\s+Number\s*[:\-]?\s*([A-Z0-9]{6,})",
+#                 # Booking No / Ref. No
+#         r"Booking\s*No\.?\s*[:\-]?\s*([A-Z0-9]+)",
+#         r"Booking\s*Number\.?\s*[:\-]?\s*([A-Z0-9]+)",
+#         r"BOOKING\s*NUMBER\.?\s*[:\-]?\s*([A-Z0-9]+)",
+#         r"Booking\s*Acknowledgement\.?\s*([0-9]+)",
+#         r"BOOKING\s*REFERENCE\s*[:\-]?\s*([A-Z0-9]+)",
+#         r"1\*\s*Booking\s*No\.?\s*[:\-]?\s*([A-Z0-9]+)",
+#         r"Our\s*Reference\s*[:\-]?\s*([A-Z0-9]+)",
+#         # Maersk (MSK) specific patterns
+#         r"Booking\s*No\.\s*:\s*([0-9]{8,})",  # "Booking No.: 250884402"
+#         r"Booking\s*No\.\s*([0-9]{8,})\s+Print\s*Date",
+
+#         # Hapag Lloyd specific patterns
+#         r"Our\s*Reference\s*[:\-]?\s*([A-Z0-9]{6,})",
+#         r"Our\s*Ref\.\s*[:\-]?\s*([A-Z0-9]{6,})",
+#         # Portal/Reference patterns
+#         r"Portal\s*Booking\s*Ref\s*[:\-]?\s*([A-Z0-9/\-]+)",
+
+#         # KMTC specific patterns
+#         r"Booking\s+No\.\s+([A-Z0-9]+)\s+Booking\s+Date",
+#         r"Booking\s+No\.\s+([A-Z0-9]+)",
+
+
+#         # ANL/CMA CGM specific patterns with contextual landmarks
+#         r"Booking\s*Number\s*:\s*([A-Z0-9]+)\s+Bkg\s*Pty\s*Ref",
+#         r"Booking\s*Number\s*:\s*([A-Z0-9]+)\s+Booking\s*Date",
+
+#         # PIL specific patterns
+#         r"Booking\s*No\s*:\s*([A-Z0-9]+)",
+#         r"BKG\s*NO\s*:\s*([A-Z0-9]+)",
+
+#         # General patterns with Tel/Phone number context
+#         r"Booking\s*Number\s*[:\-]?\s*([A-Z0-9]+)\s+Tel\s*No",
+#         r"Booking\s*Number\s*[:\-]?\s*([A-Z0-9]+)\s+Phone",
+
+#         # Booking Reference variations
+#         r"Booking\s*Reference\s*No\.\s*[:\-]?\s*([A-Z0-9/\-]+)",
+#         r"Booking\s*Ref\.\s*No\.\s*[:\-]?\s*([A-Z0-9/\-]+)",
+
+#         # Notice/Confirmation specific patterns
+#         r"Booking\s*Notice.*?Booking\s*No\.\s*([A-Z0-9]+)",
+#         r"Booking\s*Confirmation.*?Booking\s*Number\s*:\s*([A-Z0-9]+)",
+
+#         # Export reference patterns (sometimes used as booking ref)
+#         r"Export\s*Ref\.?\s*NO\s*:\s*([A-Z0-9]+)",
+
+#         # General robust patterns (fallback)
+#         r"Booking\s*Number\s*[:\-]?\s*([A-Z0-9]{6,})",
+#         r"Booking\s*No\.?\s*[:\-]?\s*([A-Z0-9]{6,})",
+
+#         # Case insensitive general patterns
+#         r"BOOKING\s*NUMBER\.?\s*[:\-]?\s*([A-Z0-9]{6,})",
+#         r"BOOKING\s*NO\.?\s*[:\-]?\s*([A-Z0-9]{6,})",
+#         r"BOOKING\s+NUMBER:\s+([0-9]{10})",
+
+#         # Reference with numbers
+#         r"Reference\s*[:\-]?\s*([A-Z0-9]{8,})",
+#         r"Our\s*Reference\s*[:\-]?\s*([A-Z0-9]{6,})",
+
+#         # Alphanumeric patterns with minimum length
+#         r"(?:Booking|BKG)\s*(?:Number|No\.?|Ref\.?)\s*[:\-]?\s*([A-Z0-9]{6,})",
+
+#         # Last resort - any alphanumeric after booking keywords
+#         r"Booking.*?([A-Z]{3}[0-9]{6,})",  # Pattern like DEL500127800
+#         r"Booking.*?([A-Z0-9]{10,})",  # Long alphanumeric codes
+#     ]
+
+#     # Clean the text - remove extra whitespace and normalize
+#     text = re.sub(r'\s+', ' ', text)
+
+#     for pattern in patterns:
+#         match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+#         if match:
+#             booking_no = match.group(1).strip()
+#             # Additional validation - ensure it's not just numbers or too short for most patterns
+#             # Exception: Allow pure numbers for Maersk booking numbers (8+ digits)
+#             if len(booking_no) >= 6:
+#                 if (re.search(r'[A-Z]', booking_no) and re.search(r'[0-9]', booking_no)) or \
+#                         (booking_no.isdigit() and len(booking_no) >= 8):
+#                     return booking_no
+
+#     return "Not Found"
+
+
+# # Test function with sample texts from your documents
+# def test_extraction():
+#     """Test the extraction function with sample booking confirmations"""
+
+#     test_cases = [
+#         # KMTC
+#         "Booking No. IN00487801 Booking Date 2025.05.29",
+#         # ANL
+#         "Booking Number: ABP0158454 Bkg Pty Ref: 04-Jun-25",
+#         # PIL
+#         "Booking No : DEL500127800",
+#         # CMA CGM
+#         "Booking Number: CAD0803097 Bkg Pty Ref: 28-Feb-25",
+#         # Maersk (MSK)
+#         "Booking No.: 250884402 Print Date:",
+#         # Hapag Lloyd (example)
+#         "Our Reference: HLCUXYZ123456",
+#     ]
+
+#     print("Testing booking number extraction:")
+#     for i, text in enumerate(test_cases, 1):
+#         result = extract_booking_number(text)
+#         print(f"Test {i}: {result}")
+
 # ------------------ Main App ------------------
 st.set_page_config(page_title="OCR PDF Extractor + DOCX Filler", layout="wide")
 st.sidebar.success(f"✅ Logged in as {st.session_state['user']}")
