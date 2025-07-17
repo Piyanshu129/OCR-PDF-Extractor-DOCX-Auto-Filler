@@ -1050,6 +1050,7 @@ if selected_company == "PACHRANGA FOODS":
 
 
 
+
 import streamlit as st
 import xlwt
 import pandas as pd
@@ -1521,7 +1522,7 @@ def process_imperial_to_export_format(structured_df, dollar_price=83.0):
     export_df = export_df.dropna(subset=["HSN Code", "Product"])
 
     return export_df
-[=-
+
 # Country mapping functions (unchanged)
 COUNTRY_CODE_PATH = "/Users/piyanshu/PycharmProjects/pdftoexcel/Country Code.xlsx"
 
@@ -1588,6 +1589,7 @@ if selected_company == "Imperial":
 
             # Convert to Export Format
             export_df2 = process_imperial_to_export_format(structured_df_cleaned, dollar_price)
+
 
             if not export_df2.empty:
                 st.subheader("📦 Intermediate Export Format")
@@ -1661,7 +1663,6 @@ if selected_company == "Imperial":
                 st.warning("⚠️ No valid data found in the structured table.")
         else:
             st.warning("⚠️ Could not detect the structured table from the invoice.")
-
 
 
 
