@@ -1521,7 +1521,7 @@ def process_imperial_to_export_format(structured_df, dollar_price=83.0):
     export_df = export_df.dropna(subset=["HSN Code", "Product"])
 
     return export_df
-
+[=-
 # Country mapping functions (unchanged)
 COUNTRY_CODE_PATH = "/Users/piyanshu/PycharmProjects/pdftoexcel/Country Code.xlsx"
 
