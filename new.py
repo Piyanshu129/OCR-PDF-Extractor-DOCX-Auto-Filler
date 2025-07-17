@@ -1450,6 +1450,7 @@ def validate_and_fix_column_mapping(df):
 def clean_description_and_drop_sparse_rows(df, max_empty_allowed=2):
     """
     Clean the extracted data and handle sparse rows.
+    Also removes rows where QTY is 0.
     """
     if df.empty:
         return df
@@ -1463,7 +1464,15 @@ def clean_description_and_drop_sparse_rows(df, max_empty_allowed=2):
     # Drop rows with too many empty cells
     df = df[df.isnull().sum(axis=1) <= max_empty_allowed]
 
-    # Reset index
+    # Convert QTY to numeric for filtering
+    if 'QTY' in df.columns:
+        df['QTY'] = pd.to_numeric(df['QTY'], errors='coerce')
+        df = df[df['QTY'] != 0]  # ❌ Remove rows with QTY == 0
+
+    if 'DESCRIPTION OF GOODS' in df.columns:
+        df['DESCRIPTION OF GOODS'] = df['DESCRIPTION OF GOODS'].astype(str).str.rstrip('0').str.strip()
+
+    # Reset index and update serial numbers
     df.reset_index(drop=True, inplace=True)
     df['S NO.'] = range(1, len(df) + 1)
 
