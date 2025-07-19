@@ -42,6 +42,17 @@ if "user" not in st.session_state:
 
 
 # def extract_booking_number(text):
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+# # ------------------ Main App ------------------
+
+
+# st.title("📄 OCR PDF Extractor & DOCX Auto-Filler")
+
+# # Poppler path (for macOS)
+# poppler_path = r"C:\Program Files\poppler-24.08.0\Library\bin"
+# os.environ["PATH"] += os.pathsep + poppler_path
+
 #     """
 #     Extract booking numbers from various shipping line booking confirmations.
 #     Supports multiple formats from different carriers like KMTC, ANL, PIL, CMA CGM, etc.
